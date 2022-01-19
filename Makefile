@@ -7,6 +7,7 @@ PROG_NAME = philo
 SRC = main.c \
 	philo_utils.c \
 
+
 OBJS = $(SRC:.c=.o)
 
 %.o: %.c
@@ -18,7 +19,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	@make -C libft/
 	@$(AR) $(NAME) $(OBJS)
-	@$(CC) $(FLAGS) $(NAME) libft/libft.a -o $(PROG_NAME) $?
+	@$(CC) $(FLAGS) $(NAME) -lpthread libft/libft.a -o $(PROG_NAME) $?
 
 clean: 
 		@make -C libft/ clean
