@@ -1,5 +1,5 @@
 NAME = philo.a
-CC = gcc -g
+CC = gcc -g 
 FLAGS = -Wall -Werror -Wextra
 AR = ar -rcs
 PROG_NAME = philo

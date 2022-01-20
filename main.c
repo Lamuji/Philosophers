@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:57:46 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/01/19 19:23:46 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/01/20 20:13:07 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,41 +21,82 @@ void	error(int n)
 	exit(EXIT_FAILURE);
 }
 
+void	lock_and_print(t_philo *p, int num)
+{
+	if (num == 0)
+	{
+		pthread_mutex_lock(&p->print);
+		printf("%ld - philo %d has taken a fork\n", actual_time() - p->start, p->id);
+		pthread_mutex_unlock(&p->print);
+	}
+	else if (num == 1)
+	{
+		pthread_mutex_lock(&p->print);
+		printf("%ld - philo %d has taken a fork\n", actual_time() - p->start, p->id);
+		pthread_mutex_unlock(&p->print);
+	}
+	else if (num == 2)
+	{
+		pthread_mutex_lock(&p->print);
+		printf("%ld - philo %d is dead\n", actual_time() - p->start, p->id);
+		pthread_mutex_unlock(&p->print);
+		exit(0);
+	}
+	else if (num == 3)
+	{
+		pthread_mutex_lock(&p->print);
+		printf("%ld - Philo %d is eating\n", actual_time() - p->start, p->id);
+		pthread_mutex_unlock(&p->print);
+		p->finish++;
+		ft_usleep(p->tte);
+		if(p->finish == p->m_eat)
+			exit(1);
+	}
+	else if (num == 4)
+	{
+		pthread_mutex_lock(&p->print);
+		printf("%ld - philo %d is sleeping\n", actual_time() - p->start, p->id);
+		pthread_mutex_unlock(&p->print);
+		ft_usleep(p->tts);
+	}
+	else if (num == 5)
+	{
+		pthread_mutex_lock(&p->print);
+		printf("%ld - philo %d is thinking\n", actual_time() - p->start, p->id);
+		pthread_mutex_unlock(&p->print);
+	}
+}	
+
 void	*routine(void *arg)
 {
 	t_philo *p;
-	long int i;
 	p = arg;
-	i = 0;
 	if (p->id % 2 == 0)
 		ft_usleep(p->tte / 10);
 	while (1)
 	{
 		pthread_mutex_lock(p->rf);
-		printf("%ld - philo %d has taken a fork\n", actual_time() - p->start, p->id);
+		lock_and_print(p, 0);
 		pthread_mutex_lock(&p->lf);
-		printf("%ld - philo %d has taken a fork\n", actual_time() - p->start, p->id);
-		if (actual_time() - p[i].last_m > p[i].ttd)
-		{
-			printf("%ld - philo %d is dead\n", actual_time() - p->start, p->id);
-			exit(0);
-		}
-		printf("%ld - Philo %d is eating\n", actual_time() - p->start, p->id);
+		lock_and_print(p, 1);
+		if (actual_time() - p->last_m > p->ttd)
+			lock_and_print(p, 2);
+		lock_and_print(p, 3);
 		pthread_mutex_unlock(p->rf);
 		pthread_mutex_unlock(&p->lf);
-		p[i].last_m = actual_time();
-		printf("%ld - philo %d is sleeping\n", actual_time() - p->start, p->id);
-		ft_usleep(p[i].tts);
-		printf("%ld - philo %d is thinking\n", actual_time() - p->start, p->id);
+		p->last_m = actual_time();
+		lock_and_print(p, 4);
+		lock_and_print(p, 5);
 	}
 	return NULL;
 }
 
 void	thread_loop(t_philo *p)
 {
+	pthread_mutex_t mutex;
+	pthread_mutex_init(&mutex, NULL);
 	int i;
 	i = 1;
-	printf("%d\n", p->ttd);
 	while (i <= p->total)
 	{
 		p[i].start = actual_time();
@@ -84,7 +125,7 @@ int	parse_args(int ac, char **av, t_philo *p)
 		p->ttd = ft_atoi(av[2]);
 		p->tte = ft_atoi(av[3]);
 		p->tts = ft_atoi(av[4]);
-		p->m_eat = -1;
+		//p->m_eat = -1;
 		p->last_m = 0;
 	}
 	if (ac == 6)
@@ -98,9 +139,11 @@ int	parse_args(int ac, char **av, t_philo *p)
 		p[i].ttd = ft_atoi(av[2]);
 		p[i].tte = ft_atoi(av[3]);
 		p[i].tts = ft_atoi(av[4]);
-		pthread_mutex_init(&p[i].lf, NULL);
-	//	pthread_mutex_init(p[i].rf, NULL);
 		p[i].finish = 0;
+		if (ac == 6)
+			p[i].m_eat = ft_atoi(av[5]);
+		pthread_mutex_init(&p[i].lf, NULL);
+		pthread_mutex_init(&p[i].print, NULL);
 		if (p->total == 1)
 			return (1);
 		if (i == p->total)

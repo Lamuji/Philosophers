@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:49:02 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/01/19 17:00:25 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/01/20 17:16:43 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct	s_philo
 	pthread_t		th;
 	pthread_mutex_t *rf;
 	pthread_mutex_t lf;
+	pthread_mutex_t	print;
 	int				finish;
 	long int 		start;
 	
