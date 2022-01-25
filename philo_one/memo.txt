@@ -1,2 +1,0 @@
-temps 0. philo 1 prend fourchette gauche puis droite puis commence a manger pdt 100ms
-temps 

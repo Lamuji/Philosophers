@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:49:02 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/01/21 14:35:53 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/01/25 20:14:54 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include <unistd.h>
 #include <pthread.h> // compile with -lpthread
 #include <sys/time.h>
-#include "libft/libft.h"
 
 #define MIN -2147483648
 #define MAX 2147483647
@@ -47,7 +46,15 @@ void	ft_usleep(int ms);
 int	parse_args(int ac, char **av, t_philo *p);
 void	thread_loop(t_philo *p);
 void	*routine(void *arg);
+
 void	error(int n);
+int		ft_atoi(const char *str);
+int		ft_str_is_nbr(char *str);
+int		ft_isdigit(int c);
+void	ft_putendl_fd(char *s, int fd);
+int		ft_strlen(char *s);
+void	ft_putchar_fd(char c, int fd);
+
 
 
 #endif

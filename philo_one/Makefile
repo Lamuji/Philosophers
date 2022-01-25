@@ -6,27 +6,23 @@ PROG_NAME = philo
 
 SRC = main.c \
 	philo_utils.c \
-
+	ft_error.c \
 
 OBJS = $(SRC:.c=.o)
 
 %.o: %.c
- 
 		$(CC) $(FLAGS) -c $< -o $@
 	
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@make -C libft/
 	@$(AR) $(NAME) $(OBJS)
-	@$(CC) $(FLAGS) $(NAME) -lpthread libft/libft.a -o $(PROG_NAME) $?
+	@$(CC) $(FLAGS) $(NAME) -lpthread  -o $(PROG_NAME) $?
 
 clean: 
-		@make -C libft/ clean
-		rm -f $(OBJS)
+	rm -f $(OBJS)
 
 fclean: clean
-	@make -C libft/ fclean
 	rm -f $(NAME) $(PROG_NAME)
 
 re: fclean all
