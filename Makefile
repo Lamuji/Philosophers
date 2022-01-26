@@ -7,6 +7,7 @@ PROG_NAME = philo
 SRC = main.c \
 	philo_utils.c \
 	ft_error.c \
+	print.c \
 
 OBJS = $(SRC:.c=.o)
 

@@ -6,15 +6,15 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 20:11:08 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/01/25 20:14:42 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/01/26 11:06:46 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int		ft_strlen(char *s)
+int	ft_strlen(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i])
@@ -33,7 +33,6 @@ void	ft_putchar_fd(char c, int fd)
 {
 	write (fd, &c, 1);
 }
-
 
 void	ft_putendl_fd(char *s, int fd)
 {
